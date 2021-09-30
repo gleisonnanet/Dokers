@@ -1,0 +1,17 @@
+FROM alpine:edge
+
+RUN apk --no-cache upgrade && apk add --no-cache chromium && apk add --no-cache --update nodejs npm
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+EXPOSE 8001
+EXPOSE 3000
+EXPOSE 6379
+
+RUN npm install
+
+COPY . .
+
+CMD ["node", "start:dev --trace-warnings"]
